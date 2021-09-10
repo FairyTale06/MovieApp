@@ -4,7 +4,7 @@ import 'package:movie_app/pages/detail.dart';
 
 
 void main()=> runApp(MaterialApp(
-  initialRoute: '/detail',
+  initialRoute: '/',
   routes: {
     '/' : (context)=> Home(),
     '/detail' : (context) =>  Detail()

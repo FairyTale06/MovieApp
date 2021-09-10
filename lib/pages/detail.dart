@@ -2,44 +2,69 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/services/movie_service.dart';
 import 'package:dio/dio.dart';
 
-class Detail extends StatelessWidget {
-  String title = "The 0Ne";
+class Detail extends StatefulWidget {
+  @override
+  _DetailState createState() => _DetailState();
+}
+
+class _DetailState extends State<Detail> {
+  String title;
+  String genre;
+  String overview;
 
   @override
-  Widget titleSection = Container(
-    child: Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Row(
-        children: [
-          Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.only(bottom: 8),
-                    child: Text(
-                      "Movie Name",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold
+  void initState() {
+    super.initState();
+  }
+
+  void getDetail() async{
+    MovieService instance = MovieService();
+    int i =0;
+
+    await instance.getMovie(i);
+    title = instance.title;
+    genre = instance.genre;
+    overview = instance.overview;
+    // print("detail"+title);
+    // print("detail"+genre);
+  }
+
+  Widget titleSection(){
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Row(
+          children: [
+            Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.only(bottom: 8),
+                      child: Text(
+                        "title",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold
+                        ),
                       ),
                     ),
-                  ),
-                  Text(
-                    'Kandesstag',
-                  )
-                ],
-              )
-          ),
-          Icon(
-            Icons.star,
-            color: Colors.red[500],
-          )
-        ],
+                    Text(
+                      'Kandesstag',
+                    )
+                  ],
+                )
+            ),
+            Icon(
+              Icons.star,
+              color: Colors.red[500],
+            )
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 
-  Widget textSection = const Padding(
+  Widget textSection = Padding(
     padding: EdgeInsets.all(32),
     child: Text(
       'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
@@ -61,7 +86,7 @@ class Detail extends StatelessWidget {
       body: Card(
         child: ListView(
           children: [
-            titleSection,
+            titleSection(),
             textSection
           ],
         ),
