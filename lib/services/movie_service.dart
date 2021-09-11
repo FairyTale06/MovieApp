@@ -19,10 +19,10 @@ class MovieService {
       Dio dio = new Dio();
       response = await dio.get('https://api.themoviedb.org/3/movie/$movieID?api_key=$APIKEY');
       title = response.data['title'];
-      genre = response.data['genres']['name'];
+      genre = response.data["genres"][0]["name"];
       overview = response.data['overview'];
       production_companies = response.data['production_companies'];
-      print("service"+title);
+      // print(response.data['production_companies']);
     }catch(e){
       print(e);
     }

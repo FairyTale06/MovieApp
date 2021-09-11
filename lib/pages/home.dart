@@ -21,21 +21,29 @@ class _HomeState extends State<Home> {
 
   int movieID = 550;
 
-  Future<String> getMovie() async{
+  Future<Map> getMovie() async{
     MovieService instance = MovieService();
 
     await instance.getMovie(movieID);
-    return instance.title;
+    Map movieDetail = {'title': instance.title, 'genre': instance.genre, 'overview': instance.overview, 'producer': instance.production_companies};
+    return movieDetail;
   }
 
   Widget carousel(){
     return Container(
-      child: FutureBuilder <String>(
+      child: FutureBuilder <Map>(
         future: getMovie(),
         builder: (context, snapshot){
           if(snapshot.hasData){
-            String data = snapshot.data;
-            return Text(data);
+            Map data = snapshot.data;
+            return Wrap(
+              children: [
+                Text(data['title']),
+                Text(data['genre']),
+                Text(data['overview']),
+                // Text(data['producer']),
+              ],
+            );
           }
           return CircularProgressIndicator();
         },
