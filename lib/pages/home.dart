@@ -123,15 +123,43 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.blueGrey,
         appBar: AppBar(
           title: Text('My Movie App'),
-          backgroundColor: Colors.black,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[
+                  Colors.deepPurple,
+                  Colors.blue
+                ]
+              )
+            ),
+          ),
+          // backgroundColor: Colors.black,
         ),
         body: Center(
-          child: ListView(
-            children: [
-              // carousel(),
-              topRated()
-            ],
-          ),
+          child: Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Colors.blueAccent,
+                      Colors.deepPurple,
+                      Colors.red
+                    ]
+                )
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: ListView(
+                children: [
+                  // carousel(),
+                  topRated()
+                ],
+              ),
+            ),
+          )
         )
     );
   }
