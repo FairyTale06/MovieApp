@@ -24,9 +24,49 @@ class _HomeState extends State<Home> {
   Future<Map> getMovie() async{
     MovieService instance = MovieService();
 
-    await instance.getMovie(movieID);
-    Map movieDetail = {'title': instance.title, 'genre': instance.genre, 'overview': instance.overview, 'producer': instance.production_companies};
+    var result = await instance.getMovie(movieID);
+    String posterPath = result['poster'];
+    Map movieDetail = {'title': result['title'], 'genre': result['genre'], 'overview': result['overview'], 'producer': result['production_companies'], 'image': 'https://image.tmdb.org/t/p/w200/$posterPath'};
+
     return movieDetail;
+  }
+
+  Future<List> getTopRated() async {
+    MovieService instance = MovieService();
+
+    var result = await instance.getTopRated();
+    // print(result);
+    // print(result[0]);
+    return result;
+  }
+
+  Widget topRated(){
+    return SingleChildScrollView(
+      physics: ScrollPhysics(),
+      child: FutureBuilder <List>(
+        future: getTopRated(),
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            List data = snapshot.data;
+            return Container(
+              child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 16,
+                  itemBuilder: (BuildContext context, int index){
+                    return Card(
+                      child: ListTile(
+                        title: Text(data[index]['original_title']),
+                      ),
+                    );
+                  }
+              ),
+            );
+          }
+          return CircularProgressIndicator();
+        },
+      )
+    );
   }
 
   Widget carousel(){
@@ -41,13 +81,27 @@ class _HomeState extends State<Home> {
                 Text(data['title']),
                 Text(data['genre']),
                 Text(data['overview']),
+                Text(data['title']),
+                Text(data['genre']),
+                Text(data['overview']),
+                Text(data['title']),
+                Text(data['genre']),
+                Text(data['overview']),
+                Text(data['title']),
+                Text(data['genre']),
+                Text(data['overview']),
+                Text(data['title']),
+                Text(data['genre']),
+                Text(data['overview']),
+                Text(data['title']),
+                Text(data['genre']),
+                Text(data['overview']),
                 // Text(data['producer']),
               ],
             );
           }
           return CircularProgressIndicator();
         },
-
       )
     );
 }
@@ -63,30 +117,10 @@ class _HomeState extends State<Home> {
         body: Center(
           child: ListView(
             children: [
-              carousel()
+              carousel(),
+              topRated()
             ],
           ),
-          // child: FutureBuilder <List<MovieService>>(
-          //   future: futureData,
-          //   builder: (context, snapshot){
-          //     if(snapshot.hasData){
-          //       List<MovieService> data = snapshot.data;
-          //       return ListView.builder(
-          //           itemCount: data.length,
-          //           itemBuilder: (BuildContext context, int index) {
-          //             return Card(
-          //               child: Row(
-          //                 children: <Widget>[
-          //                   Text('sdfsdf')
-          //                 ],
-          //               ),
-          //             );
-          //         },
-          //       );
-          //     }
-          //     return CircularProgressIndicator();
-          //   },
-          // ),
         )
     );
   }
