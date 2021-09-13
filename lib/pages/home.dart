@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/models/movie_list.dart';
 import 'package:movie_app/services/movie_service.dart';
 
 class Home extends StatefulWidget {
@@ -11,13 +10,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String name;
-  List<MovieList> movies = [
-    MovieList(name: 'Oscar', desc: 'Soft'),
-    MovieList(name: 'Oscar', desc: 'Soft'),
-    MovieList(name: 'Oscar', desc: 'Soft'),
-  ];
-
-  Future<String> movieList;
 
   int movieID = 550;
 
@@ -35,8 +27,6 @@ class _HomeState extends State<Home> {
     MovieService instance = MovieService();
 
     var result = await instance.getTopRated();
-    // print(result);
-    // print(result[0]);
     return result;
   }
 
@@ -48,19 +38,46 @@ class _HomeState extends State<Home> {
         builder: (context, snapshot){
           if(snapshot.hasData){
             List data = snapshot.data;
-            return Container(
-              child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 16,
-                  itemBuilder: (BuildContext context, int index){
-                    return Card(
-                      child: ListTile(
-                        title: Text(data[index]['original_title']),
-                      ),
-                    );
-                  }
-              ),
+            return Column(
+              children: [
+                Text(
+                    "Top Rated Movie",
+                  style: TextStyle(
+                    fontSize: 26
+                  ),
+                ),
+                ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 16,
+                    itemBuilder: (BuildContext context, int index){
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                        child: Card(
+                          color: Colors.black,
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: ListTile(
+                              leading: Image.network('https://image.tmdb.org/t/p/w200/${data[index]['poster_path']}', height: 100),
+                              title: Text(
+                                  data[index]['original_title'],
+                                style: TextStyle(
+                                  color: Colors.white
+                                ),
+                              ),
+                              subtitle: Text(
+                                "Popularity: "+(data[index]['popularity']).toString(),
+                                style: TextStyle(
+                                  color: Colors.white
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                ),
+              ],
             );
           }
           return CircularProgressIndicator();
@@ -82,20 +99,6 @@ class _HomeState extends State<Home> {
                 Text(data['genre']),
                 Text(data['overview']),
                 Text(data['title']),
-                Text(data['genre']),
-                Text(data['overview']),
-                Text(data['title']),
-                Text(data['genre']),
-                Text(data['overview']),
-                Text(data['title']),
-                Text(data['genre']),
-                Text(data['overview']),
-                Text(data['title']),
-                Text(data['genre']),
-                Text(data['overview']),
-                Text(data['title']),
-                Text(data['genre']),
-                Text(data['overview']),
                 // Text(data['producer']),
               ],
             );
@@ -110,6 +113,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: Colors.blueGrey,
         appBar: AppBar(
           title: Text('My Movie App'),
           backgroundColor: Colors.black,
@@ -117,7 +121,7 @@ class _HomeState extends State<Home> {
         body: Center(
           child: ListView(
             children: [
-              carousel(),
+              // carousel(),
               topRated()
             ],
           ),

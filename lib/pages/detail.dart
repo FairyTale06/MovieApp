@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/services/movie_service.dart';
-import 'package:dio/dio.dart';
 
 class Detail extends StatefulWidget {
   @override
@@ -25,8 +24,6 @@ class _DetailState extends State<Detail> {
     title = instance.title;
     genre = instance.genre;
     overview = instance.overview;
-    // print("detail"+title);
-    // print("detail"+genre);
   }
 
   Widget titleSection(){
