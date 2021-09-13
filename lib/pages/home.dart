@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/pages/detail.dart';
 import 'package:movie_app/services/movie_service.dart';
 
 class Home extends StatefulWidget {
@@ -57,21 +58,26 @@ class _HomeState extends State<Home> {
                           color: Colors.black,
                           child: Padding(
                             padding: const EdgeInsets.all(2.0),
-                            child: ListTile(
-                              leading: Image.network('https://image.tmdb.org/t/p/w200/${data[index]['poster_path']}', height: 100),
-                              title: Text(
+                            child: InkWell(
+                              onTap: () async{
+                                Navigator.pushNamed(context, "/detail", arguments: {"movieID": data[index]["id"]});
+                              },
+                              child: ListTile(
+                                leading: Image.network('https://image.tmdb.org/t/p/w200/${data[index]['poster_path']}', height: 100),
+                                title: Text(
                                   data[index]['original_title'],
-                                style: TextStyle(
-                                  color: Colors.white
+                                  style: TextStyle(
+                                      color: Colors.white
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  "Popularity: "+(data[index]['popularity']).toString(),
+                                  style: TextStyle(
+                                      color: Colors.white
+                                  ),
                                 ),
                               ),
-                              subtitle: Text(
-                                "Popularity: "+(data[index]['popularity']).toString(),
-                                style: TextStyle(
-                                  color: Colors.white
-                                ),
-                              ),
-                            ),
+                            )
                           ),
                         ),
                       );
