@@ -44,7 +44,8 @@ class _HomeState extends State<Home> {
                 Text(
                     "Top Rated Movie",
                   style: TextStyle(
-                    fontSize: 26
+                    fontSize: 26,
+                    color: Colors.white
                   ),
                 ),
                 ListView.builder(

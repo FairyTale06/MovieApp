@@ -8,85 +8,112 @@ class Detail extends StatefulWidget {
 
 class _DetailState extends State<Detail> {
   String title;
-  String genre;
+  var genre;
   String overview;
+  var data;
 
   @override
   void initState() {
     super.initState();
   }
 
-  void getDetail() async{
+  Future<Map> getDetail(movieID) async{
     MovieService instance = MovieService();
-    int i =0;
 
-    await instance.getMovie(i);
-    title = instance.title;
-    genre = instance.genre;
-    overview = instance.overview;
+    var data = await instance.getMovie(movieID);
+    title = data['original_title'];
+    genre = data['genre'];
+    overview = data['overview'];
+    return data;
   }
 
-  Widget titleSection(){
+  Widget titleSection(data){
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(32.0),
-        child: Row(
-          children: [
-            Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(bottom: 8),
-                      child: Text(
-                        "title",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold
+        padding: const EdgeInsets.only(left: 32.0, right: 32.0, top: 5.0),
+        child: Center(
+          child: Row(
+            children: [
+              Expanded(
+                  child: Column(
+                    children: [
+                      Image.network(
+                          'https://image.tmdb.org/t/p/w200${data['background']}'
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          data["title"],
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold
+                          ),
                         ),
                       ),
-                    ),
-                    Text(
-                      'Kandesstag',
-                    )
-                  ],
-                )
-            ),
-            Icon(
-              Icons.star,
-              color: Colors.red[500],
-            )
-          ],
+                      Text(
+                        data['genre'],
+                      )
+                    ],
+                  )
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget textSection = Padding(
-    padding: EdgeInsets.all(32),
-    child: Text(
-      'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
-          'Alps. Situated 1,578 meters above sea level, it is one of the '
-          'larger Alpine Lakes. A gondola ride from Kandersteg, followed by a '
-          'half-hour walk through pastures and pine forest, leads you to the '
-          'lake, which warms to 20 degrees Celsius in the summer. Activities '
-          'enjoyed here include rowing, and riding the summer toboggan run.',
-      softWrap: true,
-    ),
-  );
+  Widget textSection(data){
+    return Padding(
+      padding: EdgeInsets.all(32),
+      child: Text(
+        data['overview'],
+        softWrap: true,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    data = ModalRoute.of(context).settings.arguments;
+    int movieID = data['movieID'];
+
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text("sdsfsdf"),
+        title: Text("Movie Info"),
       ),
-      body: Card(
-        child: ListView(
-          children: [
-            titleSection(),
-            textSection
-          ],
-        ),
+      body: FutureBuilder(
+        future: getDetail(movieID),
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            return Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'https://image.tmdb.org/t/p/w200/${snapshot.data['poster']}'
+                  ),
+                  fit: BoxFit.cover
+                )
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 50.0, right: 50.0, top: 32.0, bottom: 100.0),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: ListView(
+                    children: [
+                      titleSection(snapshot.data),
+                      textSection(snapshot.data)
+                    ],
+                  ),
+                ),
+              )
+            );
+          }
+          return CircularProgressIndicator();
+        },
       )
     );
   }
