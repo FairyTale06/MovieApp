@@ -25,15 +25,23 @@ class MovieService {
     }
   }
 
+  Future getCredit(movieID) async {
+    // https://api.themoviedb.org/3/movie/550/credits?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US
+  }
+
+  Future getSimilar(movieID) async {
+    // https://api.themoviedb.org/3/movie/{movie_id}/similar?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US&page=1
+
+  }
+
   Future getTopRated() async {
     try{
       Response response;
       String page = "1";
       // https://api.themoviedb.org/3/movie/top_rated?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US&page=1
-      String path = 'https://api.themoviedb.org/3/movie/top_rated?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US&page=1';
+      String path = 'https://api.themoviedb.org/3/movie/top_rated?api_key=$APIKEY&language=en-US&page=1';
       Dio dio = new Dio();
       response = await dio.get(path);
-      print(response);
       var result = response.data["results"];
 
       return result.toList();
@@ -41,4 +49,39 @@ class MovieService {
       print(e);
     }
   }
+
+  Future getPopular() async {
+    // https://api.themoviedb.org/3/movie/popular?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US&page=1
+    try{
+      Response response;
+      String page = "1";
+      String path = 'https://api.themoviedb.org/3/movie/popular?api_key=$APIKEY&language=en-US&page=$page';
+      Dio dio = new Dio();
+      response = await dio.get(path);
+      print("POPULAR$response");
+      var result = response.data["results"];
+
+      return result.toList();
+    }catch(e){
+      print(e);
+    }
+  }
+
+  Future getUpcoming() async{
+    // https://api.themoviedb.org/3/movie/upcoming?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US&page=1
+    try{
+      Response response;
+      String page = "1";
+      String path = 'https://api.themoviedb.org/3/movie/upcoming?api_key=$APIKEY&language=en-US&page=$page';
+      Dio dio = new Dio();
+      response = await dio.get(path);
+      print("UPCOMING$response");
+      var result = response.data["results"];
+
+      return result.toList();
+    }catch(e){
+      print(e);
+    }
+  }
+
 }
