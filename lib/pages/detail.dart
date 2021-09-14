@@ -78,6 +78,7 @@ class _DetailState extends State<Detail> {
           Text(
             data['overview'],
             softWrap: true,
+            textAlign: TextAlign.justify,
           ),
         ],
       )
@@ -94,6 +95,18 @@ class _DetailState extends State<Detail> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text("Movie Info"),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    Colors.deepPurple,
+                    Colors.blue
+                  ]
+              )
+          ),
+        ),
       ),
       body: FutureBuilder(
         future: getDetail(movieID),
