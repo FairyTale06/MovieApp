@@ -45,12 +45,14 @@ class _DetailState extends State<Detail> {
                         child: Text(
                           data["title"],
                           style: TextStyle(
-                              fontWeight: FontWeight.bold
+                              fontWeight: FontWeight.bold,
+                            fontSize: 24
                           ),
                         ),
                       ),
-                      Text(
-                        data['genre'],
+                      Chip(
+                        label: Text(data['genre'], style: TextStyle(color: Colors.white),),
+                        backgroundColor: Colors.deepPurple,
                       )
                     ],
                   )
@@ -65,10 +67,20 @@ class _DetailState extends State<Detail> {
   Widget textSection(data){
     return Padding(
       padding: EdgeInsets.all(32),
-      child: Text(
-        data['overview'],
-        softWrap: true,
-      ),
+      child: Column(
+        children: [
+          Text("Overview",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 15.0
+            ),
+          ),
+          Text(
+            data['overview'],
+            softWrap: true,
+          ),
+        ],
+      )
     );
   }
 
