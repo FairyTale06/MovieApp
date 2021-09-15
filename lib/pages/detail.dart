@@ -19,12 +19,20 @@ class _DetailState extends State<Detail> {
     MovieService instance = MovieService();
 
     var data = await instance.getMovie(movieID);
-    print(data['genre']);
-    if(data['altTitle'] != 'given'){
-      title = data['altTitle'];
-    }else{
-      title = data['title'];
-    }
+    // if(data['altTitle'] != 'Given'){
+    //   print(data['altTitle']);
+    //   title = data['altTitle'];
+    // }else{
+    //   title = data['title'];
+    // }
+    return data;
+  }
+
+  Future getCredit(movieID) async{
+    MovieService instance = MovieService();
+
+    var data = await instance.getCredit(movieID);
+
     return data;
   }
 
@@ -44,7 +52,7 @@ class _DetailState extends State<Detail> {
                       Container(
                         padding: EdgeInsets.only(bottom: 8),
                         child: Text(
-                          title,
+                          data['title'],
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                             fontSize: 24
@@ -92,6 +100,41 @@ class _DetailState extends State<Detail> {
     );
   }
 
+  Widget movieCredit(movieID){
+    return SingleChildScrollView(
+      physics: ScrollPhysics(),
+      child: FutureBuilder(
+        future: getCredit(movieID),
+        builder: (context, snapshot){
+          if(snapshot.hasData){
+            return ListView(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              children: [
+                for(var credit in snapshot.data)
+                  Chip(label: Text(credit['name']))
+              ],
+            );
+          }
+          else if(snapshot.hasError){
+            return Text('Error');
+          }
+          return CircularProgressIndicator();
+        },
+      ),
+    );
+  }
+
+  // Row(
+  // children: <Widget>[
+  // for(var credit in snapshot.data)
+  // Chip(
+  // label: Text(credit['name']),
+  // backgroundColor: Colors.blueAccent,
+  // )
+  // ],
+  // );
+
   @override
   Widget build(BuildContext context) {
 
@@ -137,7 +180,8 @@ class _DetailState extends State<Detail> {
                   child: ListView(
                     children: [
                       titleSection(snapshot.data),
-                      textSection(snapshot.data)
+                      textSection(snapshot.data),
+                      movieCredit(movieID),
                     ],
                   ),
                 ),

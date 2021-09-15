@@ -31,6 +31,10 @@ class MovieService {
 
   Future getCredit(movieID) async {
     // https://api.themoviedb.org/3/movie/550/credits?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US
+    Response response;
+    Dio dio = new Dio();
+    response = await dio.get('$APIADD/3/movie/$movieID/credits?api_key=$APIKEY&language=en-US');
+    return response.data['cast'];
   }
 
   Future getSimilar(movieID) async {
