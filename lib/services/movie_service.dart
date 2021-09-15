@@ -39,7 +39,14 @@ class MovieService {
 
   Future getSimilar(movieID) async {
     // https://api.themoviedb.org/3/movie/{movie_id}/similar?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US&page=1
+    Response response;
+    String page = "1";
+    Dio dio = new Dio();
+    response = await dio.get('$APIADD/3/movie/$movieID/similar?api_key=$APIKEY&language=en-US&page=$page');
+    var result = response.data['results'];
+    // print(response.data['results']);
 
+    return result.toList();
   }
 
   Future getTopRated() async {
@@ -51,6 +58,7 @@ class MovieService {
       Dio dio = new Dio();
       response = await dio.get(path);
       var result = response.data["results"];
+      print(result);
 
       return result.toList();
     }catch(e){

@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/services/movie_service.dart';
 
@@ -19,12 +22,11 @@ class _DetailState extends State<Detail> {
     MovieService instance = MovieService();
 
     var data = await instance.getMovie(movieID);
-    // if(data['altTitle'] != 'Given'){
-    //   print(data['altTitle']);
-    //   title = data['altTitle'];
-    // }else{
-    //   title = data['title'];
-    // }
+    if(data['altTitle'] != 'Given'){
+      title = data['altTitle'];
+    }else{
+      title = data['title'];
+    }
     return data;
   }
 
@@ -32,6 +34,15 @@ class _DetailState extends State<Detail> {
     MovieService instance = MovieService();
 
     var data = await instance.getCredit(movieID);
+
+    return data;
+  }
+
+  Future getSimilar(movieID) async{
+    MovieService instance = MovieService();
+
+    var data = await instance.getSimilar(movieID);
+    print(data);
 
     return data;
   }
@@ -52,7 +63,7 @@ class _DetailState extends State<Detail> {
                       Container(
                         padding: EdgeInsets.only(bottom: 8),
                         child: Text(
-                          data['title'],
+                          title,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                             fontSize: 24
@@ -101,19 +112,30 @@ class _DetailState extends State<Detail> {
   }
 
   Widget movieCredit(movieID){
-    return SingleChildScrollView(
-      physics: ScrollPhysics(),
+    return Container(
       child: FutureBuilder(
         future: getCredit(movieID),
         builder: (context, snapshot){
           if(snapshot.hasData){
-            return ListView(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              children: [
-                for(var credit in snapshot.data)
-                  Chip(label: Text(credit['name']))
-              ],
+            return CarouselSlider(
+                items: [
+                  for(var credit in snapshot.data)
+                    Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        if(credit['profile_path']!=null)
+                          Image.network('https://image.tmdb.org/t/p/w200${credit['profile_path']}')
+                        else
+                          Text('\nNo Image'),
+                        Text(credit['name'])
+                      ],
+                    ),
+                ],
+                options: CarouselOptions(
+                  enlargeCenterPage: true,
+                  enableInfiniteScroll: true,
+                  autoPlay: false
+                )
             );
           }
           else if(snapshot.hasError){
@@ -125,15 +147,71 @@ class _DetailState extends State<Detail> {
     );
   }
 
-  // Row(
-  // children: <Widget>[
-  // for(var credit in snapshot.data)
-  // Chip(
-  // label: Text(credit['name']),
-  // backgroundColor: Colors.blueAccent,
-  // )
-  // ],
-  // );
+  Widget similarMovie(movieID){
+    return SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: FutureBuilder (
+          future: getSimilar(movieID),
+          builder: (context, snapshot){
+            if(snapshot.hasData){
+              var data = snapshot.data;
+              return Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Column(
+                  children: [
+                    Text(
+                      "Similar Movie",
+                      style: TextStyle(
+                          fontSize: 26,
+                          color: Colors.black
+                      ),
+                    ),
+                    ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: 16,
+                        itemBuilder: (BuildContext context, int index){
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Card(
+                              color: Colors.black,
+                              child: Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: InkWell(
+                                    onTap: () async{
+                                      Navigator.pushNamed(context, "/detail", arguments: {"movieID": data[index]["id"]});
+                                    },
+                                    child: ListTile(
+                                      leading: Image.network('https://image.tmdb.org/t/p/w200/${data[index]['poster_path']}', height: 100),
+                                      title: Text(
+                                        data[index]['original_title'],
+                                        style: TextStyle(
+                                            color: Colors.white
+                                        ),
+                                      ),
+                                      subtitle: Text(
+                                        "Popularity: "+(data[index]['popularity']).toString(),
+                                        style: TextStyle(
+                                            color: Colors.white
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ),
+                          );
+                        }
+                    ),
+                  ],
+                ),
+              );
+            }
+            return CircularProgressIndicator();
+          },
+        )
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -166,23 +244,27 @@ class _DetailState extends State<Detail> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(
-                      'https://image.tmdb.org/t/p/w200/${snapshot.data['poster']}'
+                      'https://image.tmdb.org/t/p/w200/${snapshot.data['poster']}',
                   ),
                   fit: BoxFit.cover
                 )
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 50.0, right: 50.0, top: 32.0, bottom: 100.0),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: ListView(
-                    children: [
-                      titleSection(snapshot.data),
-                      textSection(snapshot.data),
-                      movieCredit(movieID),
-                    ],
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 50.0, right: 50.0, top: 32.0, bottom: 100.0),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: ListView(
+                      children: [
+                        titleSection(snapshot.data),
+                        textSection(snapshot.data),
+                        movieCredit(movieID),
+                        similarMovie(movieID)
+                      ],
+                    ),
                   ),
                 ),
               )
