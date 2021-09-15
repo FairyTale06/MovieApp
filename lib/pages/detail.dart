@@ -8,8 +8,6 @@ class Detail extends StatefulWidget {
 
 class _DetailState extends State<Detail> {
   String title;
-  var genre;
-  String overview;
   var data;
 
   @override
@@ -21,9 +19,12 @@ class _DetailState extends State<Detail> {
     MovieService instance = MovieService();
 
     var data = await instance.getMovie(movieID);
-    title = data['original_title'];
-    genre = data['genre'];
-    overview = data['overview'];
+    print(data['genre']);
+    if(data['altTitle'] != 'given'){
+      title = data['altTitle'];
+    }else{
+      title = data['title'];
+    }
     return data;
   }
 
@@ -38,21 +39,27 @@ class _DetailState extends State<Detail> {
                   child: Column(
                     children: [
                       Image.network(
-                          'https://image.tmdb.org/t/p/w200${data['background']}'
+                          'https://image.tmdb.org/t/p/w200${data['back']}'
                       ),
                       Container(
                         padding: EdgeInsets.only(bottom: 8),
                         child: Text(
-                          data["title"],
+                          title,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                             fontSize: 24
                           ),
                         ),
                       ),
-                      Chip(
-                        label: Text(data['genre'], style: TextStyle(color: Colors.white),),
-                        backgroundColor: Colors.deepPurple,
+                      Wrap(
+                        spacing: 8.0,
+                        children: <Widget>[
+                          for(var genre in data['genre'])
+                            Chip(
+                              label: Text(genre['name'], style: TextStyle(color: Colors.white),),
+                              backgroundColor: Colors.deepPurple,
+                            )
+                        ],
                       )
                     ],
                   )
