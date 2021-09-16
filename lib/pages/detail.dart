@@ -117,25 +117,44 @@ class _DetailState extends State<Detail> {
         future: getCredit(movieID),
         builder: (context, snapshot){
           if(snapshot.hasData){
-            return CarouselSlider(
-                items: [
-                  for(var credit in snapshot.data)
-                    Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        if(credit['profile_path']!=null)
-                          Image.network('https://image.tmdb.org/t/p/w200${credit['profile_path']}')
-                        else
-                          Text('\nNo Image'),
-                        Text(credit['name'])
-                      ],
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Text("Credit",
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                  SizedBox(
+                    height: 200,
+                    child: ListView.builder(
+                        itemCount: snapshot.data.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => Container(
+                          height: 200,
+                          width: 150,
+                          child: Center(
+                            child: Column(
+                              children: [
+                                if(snapshot.data[index]['profile_path'] != null)
+                                  Image.network('https://image.tmdb.org/t/p/w200${snapshot.data[index]['profile_path']}',
+                                    width: 100, height: 100)
+                                else
+                                  // Image.asset('assets/blank.png'),
+                                  Text('No data'),
+                                Text("${snapshot.data[index]['name']}\n \tas\n${snapshot.data[index]['character']}")
+                              ],
+                            ),
+                          ),
+                        ),
                     ),
+                  ),
                 ],
-                options: CarouselOptions(
-                  enlargeCenterPage: true,
-                  enableInfiniteScroll: true,
-                  autoPlay: false
-                )
+              ),
             );
           }
           else if(snapshot.hasError){

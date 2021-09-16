@@ -16,30 +16,6 @@ class _HomeState extends State<Home> {
   String name;
   int _currentTabIndex = 0;
 
-
-//   Widget carousel(){
-//     return Container(
-//       child: FutureBuilder <Map>(
-//         future: getPopular(),
-//         builder: (context, snapshot){
-//           if(snapshot.hasData){
-//             Map data = snapshot.data;
-//             return Wrap(
-//               children: [
-//                 Text(data['title']),
-//                 Text(data['genre']),
-//                 Text(data['overview']),
-//                 Text(data['title']),
-//                 // Text(data['producer']),
-//               ],
-//             );
-//           }
-//           return CircularProgressIndicator();
-//         },
-//       )
-//     );
-// }
-
   TopRated topRated = TopRated();
   Upcoming upcoming = Upcoming();
   Popular popular = Popular();
@@ -60,9 +36,9 @@ class _HomeState extends State<Home> {
     final _kBottomNavBarItems = <BottomNavigationBarItem>[
       const BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Top Rated'),
       const BottomNavigationBarItem(icon: Icon(Icons.local_fire_department), label: 'Popular'),
-      const BottomNavigationBarItem(icon: Icon(Icons.av_timer), label: 'HOME'),
+      const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'HOME'),
       const BottomNavigationBarItem(icon: Icon(Icons.av_timer), label: 'Upcoming'),
-      const BottomNavigationBarItem(icon: Icon(Icons.av_timer), label: 'Search'),
+      const BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
     ];
 
     assert(_kTabPages.length == _kBottomNavBarItems.length);

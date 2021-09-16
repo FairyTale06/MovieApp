@@ -18,7 +18,7 @@ Future getShowing() async {
 class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
-    getShowing();
+    // getShowing();
     return Container();
   }
 }

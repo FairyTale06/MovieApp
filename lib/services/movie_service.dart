@@ -33,6 +33,7 @@ class MovieService {
     Response response;
     Dio dio = new Dio();
     response = await dio.get('$APIADD/3/movie/$movieID/credits?api_key=$APIKEY&language=en-US');
+    print(response);
     return response.data['cast'];
   }
 
