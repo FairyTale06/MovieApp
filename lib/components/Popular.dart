@@ -41,29 +41,42 @@ class _PopularState extends State<Popular> {
                         return Padding(
                           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                           child: Card(
-                            color: Color(0xff5345cc),
-                            child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: InkWell(
-                                  onTap: () async{
-                                    Navigator.pushNamed(context, "/detail", arguments: {"movieID": data[index]["id"]});
-                                  },
-                                  child: ListTile(
-                                    leading: Image.network('https://image.tmdb.org/t/p/w200/${data[index]['poster_path']}', height: 100),
-                                    title: Text(
-                                      data[index]['original_title'],
-                                      style: TextStyle(
-                                          color: Colors.white
+                            // color: Color(0xff5345cc),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: <Color>[
+                                        Colors.deepPurple,
+                                        Colors.deepPurpleAccent,
+                                        Colors.blueAccent
+                                      ]
+                                  )
+                              ),
+                              child: Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: InkWell(
+                                    onTap: () async{
+                                      Navigator.pushNamed(context, "/detail", arguments: {"movieID": data[index]["id"]});
+                                    },
+                                    child: ListTile(
+                                      leading: Image.network('https://image.tmdb.org/t/p/w200/${data[index]['poster_path']}', height: 100),
+                                      title: Text(
+                                        data[index]['original_title'],
+                                        style: TextStyle(
+                                            color: Colors.white
+                                        ),
+                                      ),
+                                      subtitle: Text(
+                                        "Popularity: "+(data[index]['popularity']).toString(),
+                                        style: TextStyle(
+                                            color: Colors.white
+                                        ),
                                       ),
                                     ),
-                                    subtitle: Text(
-                                      "Popularity: "+(data[index]['popularity']).toString(),
-                                      style: TextStyle(
-                                          color: Colors.white
-                                      ),
-                                    ),
-                                  ),
-                                )
+                                  )
+                              ),
                             ),
                           ),
                         );
