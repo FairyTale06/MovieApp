@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/services/movie_service.dart';
 
-class Search extends StatefulWidget {
+class Homepage extends StatefulWidget {
 
   @override
-  _SearchState createState() => _SearchState();
+  _HomepageState createState() => _HomepageState();
 }
 
-Future getSearch() async {
+Future getShowing() async {
   MovieService instance = MovieService();
 
-  var result = await instance.getSearch('iron man');
+  var result = await instance.getShowing();
   print(result);
   // return result;
 }
 
-class _SearchState extends State<Search> {
-
+class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
-    getSearch();
+    getShowing();
     return Container();
   }
 }

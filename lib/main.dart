@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/pages/home.dart';
+import 'package:movie_app/pages/menu.dart';
 import 'package:movie_app/pages/detail.dart';
 import 'dart:async';
 

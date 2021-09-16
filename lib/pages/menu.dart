@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/components/TopRated.dart';
 import 'package:movie_app/components/Upcoming.dart';
 import 'package:movie_app/components/Popular.dart';
+import 'package:movie_app/components/Homepage.dart';
+import 'package:movie_app/components/Search.dart';
 
 class Home extends StatefulWidget {
 
@@ -41,6 +43,8 @@ class _HomeState extends State<Home> {
   TopRated topRated = TopRated();
   Upcoming upcoming = Upcoming();
   Popular popular = Popular();
+  Search search = Search();
+  Homepage homepage = Homepage();
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +52,9 @@ class _HomeState extends State<Home> {
     final _kTabPages = <Widget>[
       Center(child: topRated),
       Center(child: popular),
+      Center(child: homepage),
       Center(child: upcoming),
-      Center(child: popular),
-      Center(child: popular),
+      Center(child: search),
     ];
 
     final _kBottomNavBarItems = <BottomNavigationBarItem>[

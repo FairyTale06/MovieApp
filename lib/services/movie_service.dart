@@ -4,7 +4,7 @@ import 'dart:convert';
 class MovieService {
 
   String APIKEY = '2a40536ee239d94cf345668ce6266a60';
-  String ACCESSTOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYTQwNTM2ZWUyMzlkOTRjZjM0NTY2OGNlNjI2NmE2MCIsInN1YiI6IjYxMjliNWYxMGQ5ZjVhMDA0M2RjMjczMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Lk8LO40cO7xz5wfQ5ghH2LjLd2q-_X9b0IsPvU1BJTc';
+  // String ACCESSTOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYTQwNTM2ZWUyMzlkOTRjZjM0NTY2OGNlNjI2NmE2MCIsInN1YiI6IjYxMjliNWYxMGQ5ZjVhMDA0M2RjMjczMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Lk8LO40cO7xz5wfQ5ghH2LjLd2q-_X9b0IsPvU1BJTc';
   String APIADD = 'https://api.themoviedb.org';
 
   Future getMovie(int movieID) async {
@@ -30,7 +30,6 @@ class MovieService {
   }
 
   Future getCredit(movieID) async {
-    // https://api.themoviedb.org/3/movie/550/credits?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US
     Response response;
     Dio dio = new Dio();
     response = await dio.get('$APIADD/3/movie/$movieID/credits?api_key=$APIKEY&language=en-US');
@@ -38,13 +37,11 @@ class MovieService {
   }
 
   Future getSimilar(movieID) async {
-    // https://api.themoviedb.org/3/movie/{movie_id}/similar?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US&page=1
     Response response;
     String page = "1";
     Dio dio = new Dio();
     response = await dio.get('$APIADD/3/movie/$movieID/similar?api_key=$APIKEY&language=en-US&page=$page');
     var result = response.data['results'];
-    // print(response.data['results']);
 
     return result.toList();
   }
@@ -53,8 +50,7 @@ class MovieService {
     try{
       Response response;
       String page = "1";
-      // https://api.themoviedb.org/3/movie/top_rated?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US&page=1
-      String path = 'https://api.themoviedb.org/3/movie/top_rated?api_key=$APIKEY&language=en-US&page=1';
+      String path = '$APIADD/3/movie/top_rated?api_key=$APIKEY&language=en-US&page=$page';
       Dio dio = new Dio();
       response = await dio.get(path);
       var result = response.data["results"];
@@ -67,11 +63,10 @@ class MovieService {
   }
 
   Future getPopular() async {
-    // https://api.themoviedb.org/3/movie/popular?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US&page=1
     try{
       Response response;
       String page = "1";
-      String path = 'https://api.themoviedb.org/3/movie/popular?api_key=$APIKEY&language=en-US&page=$page';
+      String path = '$APIADD/3/movie/popular?api_key=$APIKEY&language=en-US&page=$page';
       Dio dio = new Dio();
       response = await dio.get(path);
       var result = response.data["results"];
@@ -83,11 +78,10 @@ class MovieService {
   }
 
   Future getUpcoming() async{
-    // https://api.themoviedb.org/3/movie/upcoming?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US&page=1
     try{
       Response response;
       String page = "1";
-      String path = 'https://api.themoviedb.org/3/movie/upcoming?api_key=$APIKEY&language=en-US&page=$page';
+      String path = '$APIADD/3/movie/upcoming?api_key=$APIKEY&language=en-US&page=$page';
       Dio dio = new Dio();
       response = await dio.get(path);
       var result = response.data["results"];
@@ -95,6 +89,32 @@ class MovieService {
       return result.toList();
     }catch(e){
       print(e);
+    }
+  }
+
+  Future getSearch(keyword) async {
+    // https://api.themoviedb.org/3/search/movie?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US&query=iron%20man
+    try{
+      Response response;
+      String path = '$APIADD/3/search/movie?api_key=$APIKEY&language=en-US&query=$keyword';
+      Dio dio = new Dio();
+      response = await dio.get(path);
+      print(response);
+    }catch(e){
+
+    }
+  }
+
+  Future getShowing() async {
+    // https://api.themoviedb.org/3/movie/now_playing?api_key=2a40536ee239d94cf345668ce6266a60&language=en-US&page=1
+    try{
+      Response response;
+      String path = '$APIADD/3/movie/now_playing?api_key=$APIKEY&language=en-US';
+      Dio dio = new Dio();
+      response = await dio.get(path);
+      print(response);
+    }catch(e){
+
     }
   }
 
