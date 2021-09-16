@@ -58,7 +58,7 @@ class _HomeState extends State<Home> {
                         return Padding(
                           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                           child: Card(
-                            color: Colors.black,
+                            color: Color(0xff5345cc),
                             child: Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: InkWell(
@@ -120,7 +120,7 @@ class _HomeState extends State<Home> {
                         return Padding(
                           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                           child: Card(
-                            color: Colors.black,
+                            color: Color(0xff5345cc),
                             child: Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: InkWell(
@@ -182,7 +182,7 @@ class _HomeState extends State<Home> {
                       return Padding(
                         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                         child: Card(
-                          color: Colors.black,
+                          color: Color(0xff5345cc),
                           child: Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: InkWell(
@@ -290,17 +290,7 @@ class _HomeState extends State<Home> {
         ),
         body: Center(
           child: Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: <Color>[
-                      Colors.blueAccent,
-                      Colors.deepPurple,
-                      Colors.red
-                    ]
-                )
-            ),
+            color: Color(0xff042861),
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: _kTabPages[_currentTabIndex]
