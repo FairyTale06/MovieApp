@@ -38,36 +38,24 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.blue,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 200.0),
-          child: Column(
-            children: [
-              Text(
-                'My Movie App',
-                style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(170.0),
-                child: Column(
-                  children: [
-                    Text('Powered By: ',
-                    style: TextStyle(
-                      fontSize: 17
-                    ),),
-                    Image.asset('assets/logo.jpg',
-                    ),
-                    Text('TMDB',
-                    style: TextStyle(
-                      fontSize: 24
-                    ),)
-                  ],
-                ),
-              )
-            ],
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[
+                  Colors.blue,
+                  Color(0xff27319c),
+                  Colors.black
+                ]
+            )
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(66.0),
+            child: ClipOval(
+              // borderRadius: BorderRadius.circular(10.0),
+              child: Image.asset('assets/Moviery.png', fit: BoxFit.cover,),
+            )
           ),
         ),
       ),
