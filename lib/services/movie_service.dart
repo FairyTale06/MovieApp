@@ -101,6 +101,7 @@ class MovieService {
       Dio dio = new Dio();
       response = await dio.get(path);
       var result = response.data['results'];
+      print(result);
 
       return result.toList();
     }catch(e){
