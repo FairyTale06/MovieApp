@@ -45,6 +45,11 @@ class _HomeState extends State<Home> {
 
     final bottomNavBar = BottomNavigationBar(
         items: _kBottomNavBarItems,
+      backgroundColor: Colors.black,
+      unselectedItemColor: Colors.white,
+      selectedItemColor: Colors.deepPurpleAccent,
+      selectedFontSize: 15.0,
+      unselectedFontSize: 10.0,
       currentIndex: _currentTabIndex,
       type: BottomNavigationBarType.fixed,
       onTap: (int index){
