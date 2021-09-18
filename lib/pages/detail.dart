@@ -137,17 +137,32 @@ class _DetailState extends State<Detail> {
                         itemBuilder: (context, index) => Container(
                           height: 200,
                           width: 150,
-                          child: Center(
-                            child: Column(
-                              children: [
-                                if(snapshot.data[index]['profile_path'] != null)
-                                  Image.network('https://image.tmdb.org/t/p/w200${snapshot.data[index]['profile_path']}',
-                                    width: 100, height: 100)
-                                else
-                                  // Image.asset('assets/blank.png'),
-                                  Text('No data'),
-                                Text("${snapshot.data[index]['name']}\n \tas\n${snapshot.data[index]['character']}")
-                              ],
+                          child: Card(
+                            // shape: RoundedRectangleBorder(
+                            //   borderRadius: BorderRadius.circular(15.0)
+                            // ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: <Color>[
+                                        Colors.blue,
+                                        Colors.lightBlueAccent,
+                                        Colors.white
+                                      ]
+                                  )
+                              ),
+                              child: Column(
+                                children: [
+                                  if(snapshot.data[index]['profile_path'] != null)
+                                    Image.network('https://image.tmdb.org/t/p/w200${snapshot.data[index]['profile_path']}',
+                                      width: 100, height: 100)
+                                  else
+                                    Image.asset('assets/blank.png', width: 50, height: 100,),
+                                  Text("${snapshot.data[index]['name']}\n \tas\n${snapshot.data[index]['character']}")
+                                ],
+                              ),
                             ),
                           ),
                         ),

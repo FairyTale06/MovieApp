@@ -121,7 +121,8 @@ class MovieService {
       String path = '$APIADD/3/movie/now_playing?api_key=$APIKEY&language=en-US';
       Dio dio = new Dio();
       response = await dio.get(path);
-      print(response);
+      var result = response.data['results'];
+      return result.toList();
     }catch(e){
 
     }
