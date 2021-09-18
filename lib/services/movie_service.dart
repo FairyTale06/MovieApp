@@ -33,7 +33,6 @@ class MovieService {
     Response response;
     Dio dio = new Dio();
     response = await dio.get('$APIADD/3/movie/$movieID/credits?api_key=$APIKEY&language=en-US');
-    print(response);
     return response.data['cast'];
   }
 
@@ -47,47 +46,53 @@ class MovieService {
     return result.toList();
   }
 
-  Future getTopRated() async {
+  Future getTopRated(String page) async {
     try{
+      // print("before called $page");
       Response response;
-      String page = "1";
       String path = '$APIADD/3/movie/top_rated?api_key=$APIKEY&language=en-US&page=$page';
       Dio dio = new Dio();
       response = await dio.get(path);
-      var result = response.data["results"];
+      var result = (response.data["results"]).toList();
+      var lastPage = response.data['total_pages'];
+      var currentPage = response.data['page'];
       print(result);
 
-      return result.toList();
+      return {"result": result, "lastPage": lastPage, "currentPage": currentPage};
     }catch(e){
       print(e);
     }
   }
 
-  Future getPopular() async {
+  Future getPopular(String page) async {
     try{
       Response response;
-      String page = "1";
       String path = '$APIADD/3/movie/popular?api_key=$APIKEY&language=en-US&page=$page';
       Dio dio = new Dio();
       response = await dio.get(path);
-      var result = response.data["results"];
+      var result = (response.data["results"]).toList();
+      var lastPage = response.data['total_pages'];
+      var currentPage = response.data['page'];
+      print(result);
 
-      return result.toList();
+      return {"result": result, "lastPage": lastPage, "currentPage": currentPage};
     }catch(e){
       print(e);
     }
   }
 
-  Future getUpcoming() async{
+  Future getUpcoming(String page) async{
     try{
       Response response;
-      String page = "1";
       String path = '$APIADD/3/movie/upcoming?api_key=$APIKEY&language=en-US&page=$page';
       Dio dio = new Dio();
       response = await dio.get(path);
-      var result = response.data["results"];
+      var result = (response.data["results"]).toList();
+      var lastPage = response.data['total_pages'];
+      var currentPage = response.data['page'];
+      print(result);
 
-      return result.toList();
+      return {"result": result, "lastPage": lastPage, "currentPage": currentPage};
     }catch(e){
       print(e);
     }

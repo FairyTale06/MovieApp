@@ -9,11 +9,23 @@ class TopRated extends StatefulWidget {
   _TopRatedState createState() => _TopRatedState();
 }
 
+int called = 0;
+int totalPages;
+int currentPage = 1;
+
 Future<List> getTopRated() async {
   MovieService instance = MovieService();
 
-  var result = await instance.getTopRated();
-  return result;
+  // if(called == 0){
+    var result = await instance.getTopRated(currentPage.toString());
+    totalPages = result['lastPage'];
+    currentPage = result['currentPage'];
+    print(currentPage);
+    called += 1;
+    return result['result'];
+  // }else{
+  //   called = 0;
+  // }
 }
 
 class _TopRatedState extends State<TopRated> {
@@ -83,6 +95,36 @@ class _TopRatedState extends State<TopRated> {
                         );
                       }
                   ),
+                  Row(
+                    children: [
+                      if(currentPage > 1)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 16.0),
+                          child: TextButton(
+                              onPressed: (){
+                                setState(() {
+                                  currentPage -= 1;
+                                  getTopRated();
+                                });
+                              },
+                              child: Text('Prev')
+                          ),
+                        ),
+                      if(currentPage < totalPages)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 16.0),
+                          child: TextButton(
+                              onPressed: (){
+                                setState(() {
+                                  currentPage += 1;
+                                  getTopRated();
+                                });
+                              },
+                              child: Text('Next')
+                          ),
+                        ),
+                    ],
+                  )
                 ],
               );
             }

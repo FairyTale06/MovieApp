@@ -57,7 +57,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.blueGrey,
         appBar: AppBar(
-          title: Text('My Movie App'),
+          title: Text('Moviery'),
           flexibleSpace: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(

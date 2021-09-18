@@ -7,11 +7,23 @@ class Upcoming extends StatefulWidget {
   _UpcomingState createState() => _UpcomingState();
 }
 
+int called = 0;
+int totalPages;
+int currentPage = 1;
+
 Future<List> getUpcoming() async {
   MovieService instance = MovieService();
 
-  var result = await instance.getUpcoming();
-  return result;
+  // if(called == 0){
+    var result = await instance.getUpcoming(currentPage.toString());
+    totalPages = result['lastPage'];
+    currentPage = result['currentPage'];
+    print(currentPage);
+    called += 1;
+    return result['result'];
+  // }else{
+  //   called = 0;
+  // }
 }
 
 class _UpcomingState extends State<Upcoming> {
@@ -81,6 +93,36 @@ class _UpcomingState extends State<Upcoming> {
                         );
                       }
                   ),
+                  Row(
+                    children: [
+                      if(currentPage > 1)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 16.0),
+                          child: TextButton(
+                              onPressed: (){
+                                setState(() {
+                                  currentPage -= 1;
+                                  getUpcoming();
+                                });
+                              },
+                              child: Text('Prev')
+                          ),
+                        ),
+                      if(currentPage < totalPages)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 16.0),
+                          child: TextButton(
+                              onPressed: (){
+                                setState(() {
+                                  currentPage += 1;
+                                  getUpcoming();
+                                });
+                              },
+                              child: Text('Next')
+                          ),
+                        ),
+                    ],
+                  )
                 ],
               );
             }

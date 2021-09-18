@@ -7,11 +7,23 @@ class Popular extends StatefulWidget {
   _PopularState createState() => _PopularState();
 }
 
+int called = 0;
+int totalPages;
+int currentPage = 1;
+
 Future<List> getPopular() async {
   MovieService instance = MovieService();
 
-  var result = await instance.getPopular();
-  return result;
+  // if(called == 0){
+    var result = await instance.getPopular(currentPage.toString());
+    totalPages = result['lastPage'];
+    currentPage = result['currentPage'];
+    print(currentPage);
+    called += 1;
+    return result['result'];
+  // }else{
+  //   called = 0;
+  // }
 }
 
 class _PopularState extends State<Popular> {
@@ -82,6 +94,36 @@ class _PopularState extends State<Popular> {
                         );
                       }
                   ),
+                  Row(
+                    children: [
+                      if(currentPage > 1)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 16.0),
+                          child: TextButton(
+                              onPressed: (){
+                                setState(() {
+                                  currentPage -= 1;
+                                  getPopular();
+                                });
+                              },
+                              child: Text('Prev')
+                          ),
+                        ),
+                      if(currentPage < totalPages)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0, right: 16.0),
+                          child: TextButton(
+                              onPressed: (){
+                                setState(() {
+                                  currentPage += 1;
+                                  getPopular();
+                                });
+                              },
+                              child: Text('Next')
+                          ),
+                        ),
+                    ],
+                  )
                 ],
               );
             }
