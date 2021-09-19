@@ -14,16 +14,12 @@ int currentPage = 1;
 Future<List> getPopular() async {
   MovieService instance = MovieService();
 
-  // if(called == 0){
     var result = await instance.getPopular(currentPage.toString());
     totalPages = result['lastPage'];
     currentPage = result['currentPage'];
     print(currentPage);
     called += 1;
     return result['result'];
-  // }else{
-  //   called = 0;
-  // }
 }
 
 class _PopularState extends State<Popular> {
@@ -103,7 +99,6 @@ class _PopularState extends State<Popular> {
                               onPressed: (){
                                 setState(() {
                                   currentPage -= 1;
-                                  getPopular();
                                 });
                               },
                               child: Text('Prev')
@@ -116,7 +111,6 @@ class _PopularState extends State<Popular> {
                               onPressed: (){
                                 setState(() {
                                   currentPage += 1;
-                                  getPopular();
                                 });
                               },
                               child: Text('Next')

@@ -16,16 +16,11 @@ int currentPage = 1;
 Future<List> getTopRated() async {
   MovieService instance = MovieService();
 
-  // if(called == 0){
     var result = await instance.getTopRated(currentPage.toString());
     totalPages = result['lastPage'];
     currentPage = result['currentPage'];
-    print(currentPage);
     called += 1;
     return result['result'];
-  // }else{
-  //   called = 0;
-  // }
 }
 
 class _TopRatedState extends State<TopRated> {
@@ -104,7 +99,6 @@ class _TopRatedState extends State<TopRated> {
                               onPressed: (){
                                 setState(() {
                                   currentPage -= 1;
-                                  getTopRated();
                                 });
                               },
                               child: Text('Prev')
@@ -117,7 +111,6 @@ class _TopRatedState extends State<TopRated> {
                               onPressed: (){
                                 setState(() {
                                   currentPage += 1;
-                                  getTopRated();
                                 });
                               },
                               child: Text('Next')

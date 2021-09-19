@@ -48,7 +48,7 @@ class MovieService {
 
   Future getTopRated(String page) async {
     try{
-      // print("before called $page");
+      print("before called $page");
       Response response;
       String path = '$APIADD/3/movie/top_rated?api_key=$APIKEY&language=en-US&page=$page';
       Dio dio = new Dio();
@@ -56,7 +56,6 @@ class MovieService {
       var result = (response.data["results"]).toList();
       var lastPage = response.data['total_pages'];
       var currentPage = response.data['page'];
-      print(result);
 
       return {"result": result, "lastPage": lastPage, "currentPage": currentPage};
     }catch(e){
@@ -73,7 +72,6 @@ class MovieService {
       var result = (response.data["results"]).toList();
       var lastPage = response.data['total_pages'];
       var currentPage = response.data['page'];
-      print(result);
 
       return {"result": result, "lastPage": lastPage, "currentPage": currentPage};
     }catch(e){
@@ -90,7 +88,6 @@ class MovieService {
       var result = (response.data["results"]).toList();
       var lastPage = response.data['total_pages'];
       var currentPage = response.data['page'];
-      print(result);
 
       return {"result": result, "lastPage": lastPage, "currentPage": currentPage};
     }catch(e){
@@ -106,7 +103,6 @@ class MovieService {
       Dio dio = new Dio();
       response = await dio.get(path);
       var result = response.data['results'];
-      print(result);
 
       return result.toList();
     }catch(e){

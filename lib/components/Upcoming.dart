@@ -14,16 +14,12 @@ int currentPage = 1;
 Future<List> getUpcoming() async {
   MovieService instance = MovieService();
 
-  // if(called == 0){
     var result = await instance.getUpcoming(currentPage.toString());
     totalPages = result['lastPage'];
     currentPage = result['currentPage'];
     print(currentPage);
     called += 1;
     return result['result'];
-  // }else{
-  //   called = 0;
-  // }
 }
 
 class _UpcomingState extends State<Upcoming> {
@@ -102,7 +98,6 @@ class _UpcomingState extends State<Upcoming> {
                               onPressed: (){
                                 setState(() {
                                   currentPage -= 1;
-                                  getUpcoming();
                                 });
                               },
                               child: Text('Prev')
@@ -115,7 +110,6 @@ class _UpcomingState extends State<Upcoming> {
                               onPressed: (){
                                 setState(() {
                                   currentPage += 1;
-                                  getUpcoming();
                                 });
                               },
                               child: Text('Next')
